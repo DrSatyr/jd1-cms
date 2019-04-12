@@ -1,18 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div class="row">
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="messages"/>
+
+<div class="row pt-3">
     <div class="col-md-8 blog-main">
 
         <div class="blog-post">
-            <h1 class="blog-post-title">Content list:</h1>
+            <h1 class="blog-post-title"><fmt:message key="content.list.heading"/> </h1>
             <ul>
-                <c:forEach var="content" items="${requestScope.contents}">
+                <c:forEach var="content" items="${requestScope.entities}">
                     <c:forEach items="${content.translation}" var="translation">
                         <c:if test="${translation.key == sessionScope.lang}">
-                            <li>
+                            <li class="mb-1">
+                                <c:forEach items="${content.category.translation}" var="categoryTranslation">
+                                    <c:if test="${categoryTranslation.key == sessionScope.lang}">
+                                        <a class="btn btn-success btn-sm" role="button" aria-pressed="true" href="${pageContext.request.contextPath}/app/category?id=${content.category.id}">
+                                                ${categoryTranslation.value.name}
+                                        </a>
+                                    </c:if>
+                                </c:forEach>
                                 <a href="${pageContext.request.contextPath}/app/content?id=${content.id}">${translation.value.name}</a>
                                 <span class="content-list-created">${content.created} </span>
-                                <span class="content-list-created">${content.createdBy.name} ${content.createdBy.surname}</span>
+                                <span>
+
+                                </span>
                             </li>
                         </c:if>
                     </c:forEach>

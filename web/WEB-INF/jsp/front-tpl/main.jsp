@@ -1,18 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="messages"/>
+
 <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
-    <div class="col-md-6 px-0">
+    <div class="row">
         <c:forEach items="${requestScope.mainNews}" var="mainNews">
-            <c:forEach items="${mainNews.translation}" var="translation">
-                <c:if test="${translation.key == sessionScope.lang}">
-                    <h1 class="display-6 font-italic">${translation.value.name}</h1>
-                    <p class="lead my-3">${translation.value.introText}</p>
-                    <p class="lead mb-0">
-                        <a href="${pageContext.request.contextPath}/app/content?id=${mainNews.id}"
-                           class="text-white font-weight-bold">подробнее...</a>
-                    </p>
-                </c:if>
-            </c:forEach>
+            <div class="col-md-6 px-0">
+                <c:forEach items="${mainNews.translation}" var="translation">
+                    <c:if test="${translation.key == sessionScope.lang}">
+                        <h1 class="display-6 font-italic">${translation.value.name}</h1>
+                        <p class="lead my-3">${translation.value.introText}</p>
+                        <p class="lead mb-0">
+                            <a href="${pageContext.request.contextPath}/app/content?id=${mainNews.id}"
+                               class="text-white font-weight-bold"><fmt:message key="site.readmore"/></a>
+                        </p>
+                    </c:if>
+                </c:forEach>
+            </div>
+            <div class="col-md-6">
+                <img class="rounded-circle" width="100%" src="${applicationScope.uploadPath}/${mainNews.image}">
+            </div>
         </c:forEach>
     </div>
 </div>

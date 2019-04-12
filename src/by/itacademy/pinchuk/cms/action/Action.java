@@ -8,9 +8,10 @@ import java.io.IOException;
 
 public interface Action {
 
-    String CREATE_ACTION = "create";
-    String UPDATE_ACTION = "update";
-    String DELETE_ACTION = "delete";
+    String GET = "";
+    String CREATE = "create";
+    String UPDATE = "update";
+    String DELETE = "delete";
 
     <E extends Entity> void execute(Service<E> service, String view) throws ServletException, IOException;
 }

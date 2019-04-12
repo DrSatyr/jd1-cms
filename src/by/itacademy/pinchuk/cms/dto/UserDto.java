@@ -1,4 +1,4 @@
-package by.itacademy.pinchuk.cms.entity;
+package by.itacademy.pinchuk.cms.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class User implements Entity {
+public class UserDto implements Dto {
 
     private Integer id;
     private String username;
@@ -19,7 +19,8 @@ public class User implements Entity {
     private String phone;
     private String password;
     private boolean active;
-    private UserRole role;
+    private String role;
+    // TODO: 09.04.2019 Преобразовать даты в стриг используя DateFormatter
     private LocalDate registerDate;
     private LocalDate birthDate;
     private String name;

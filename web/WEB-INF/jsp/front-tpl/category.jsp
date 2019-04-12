@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="messages"/>
 
 <c:forEach items="${requestScope.entity.translation}" var="translation">
     <c:if test="${translation.key == sessionScope.lang}">
@@ -7,12 +10,12 @@
     </c:if>
 </c:forEach>
 
-<div class="row">
+<div class="row pt-3">
     <div class="col-md-8 blog-main">
 
         <jsp:include page="chunks/entityEditButtons.jsp"/>
 
-        <span>категория</span>
+        <span><fmt:message key="category.namelabel"/> </span>
         <h1 class="pb-2 font-italic">
             ${translation.name}:
         </h1>
@@ -34,11 +37,13 @@
             </ul>
         </div>
 
-        <div class="edit-buttons col-md-12">
-            <a class="btn btn-outline-success btn-sm"
-               href="${pageContext.request.contextPath}/app/content?action=create&categoryId=${requestScope.entity.id}"
-               role="button">Добавить</a>
-        </div>
+        <c:if test="${sessionScope.user.role eq 'ADMINISTRATOR' or sessionScope.user.role eq 'EDITOR'}">
+            <div class="edit-buttons col-md-12">
+                <a class="btn btn-outline-success btn-sm"
+                   href="${pageContext.request.contextPath}/app/content?action=create&categoryId=${requestScope.entity.id}"
+                   role="button"><fmt:message key="action.add"/></a>
+            </div>
+        </c:if>
 
     </div>
 
@@ -75,6 +80,6 @@
                 <li><a href="#">Facebook</a></li>
             </ol>
         </div>
-    </aside><!-- /.blog-sidebar -->
+    </aside>
 
-</div><!-- /.row -->
+</div>

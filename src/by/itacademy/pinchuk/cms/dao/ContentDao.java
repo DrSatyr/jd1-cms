@@ -118,7 +118,11 @@ public class ContentDao extends BaseDao<Content> implements Dao<Content> {
                     "publish_down = ?, " +
                     "hits = ?, " +
                     "active = ?, " +
-                    "extra_fields = ?, " +
+                    "extra_fields = ? " +
+                    "WHERE id = ? ";
+
+    private static final String UPDATE_IMAGE =
+            "UPDATE app.content SET " +
                     "image = ? " +
                     "WHERE id = ? ";
 
@@ -265,8 +269,7 @@ public class ContentDao extends BaseDao<Content> implements Dao<Content> {
                 statement1.setInt(9, content.getHits());
                 statement1.setBoolean(10, content.isActive());
                 statement1.setObject(11, content.getExtraFields());
-                statement1.setString(12, content.getImage());
-                statement1.setInt(13, content.getId());
+                statement1.setInt(12, content.getId());
 
                 if (statement1.executeUpdate() > 0) {
                     Map<Lang, ContentTranslation> translation = content.getTranslation();
@@ -299,6 +302,20 @@ public class ContentDao extends BaseDao<Content> implements Dao<Content> {
                 connection.close();
             } catch (SQLException e) {
                 throw new SQLException(e);
+            }
+        }
+        return result;
+    }
+
+    @SneakyThrows
+    public boolean updateImage(Content content) {
+        boolean result = false;
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_IMAGE)) {
+            preparedStatement.setString(1, content.getImage());
+            preparedStatement.setInt(2, content.getId());
+            if (preparedStatement.executeUpdate() > 0) {
+                result = true;
             }
         }
         return result;

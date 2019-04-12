@@ -8,6 +8,7 @@ import by.itacademy.pinchuk.cms.entity.ContentType;
 import by.itacademy.pinchuk.cms.entity.Lang;
 import by.itacademy.pinchuk.cms.entity.Tag;
 import by.itacademy.pinchuk.cms.entity.User;
+import by.itacademy.pinchuk.cms.entity.UserRole;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalDate;
@@ -94,7 +95,7 @@ public class TestData {
                 .phone(USER_VALID_PHONE)
                 .password(USER_VALID_PASSWORD)
                 .active(USER_VALID_ACTIVE)
-                .role(USER_VALID_ROLE)
+                .role(UserRole.valueOf(USER_VALID_ROLE))
                 .registerDate(USER_VALID_REGISTER_DATE)
                 .birthDate(USER_VALID_BIRTH_DATE)
                 .name(USER_VALID_NAME)

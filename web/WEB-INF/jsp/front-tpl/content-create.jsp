@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="messages"/>
 
 <div class="row">
-    <div class="col-md-12 blog-main">
+    <div class="col-md-12 bg-light border border-primary rounded mb-5 mt-5">
         <div class="blog-post">
             <h1 class="blog-post-title">Создание контента:</h1>
-            <form action="${pageContext.request.contextPath}/app/content?action=create" method="POST" accept-charset="UTF-8">
+            <form action="${pageContext.request.contextPath}/app/content?action=create" method="POST" accept-charset="UTF-8" enctype="multipart/form-data"  >
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="created">Дата создания</label>

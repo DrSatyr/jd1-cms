@@ -1,9 +1,13 @@
 package by.itacademy.pinchuk.cms.action;
 
 import by.itacademy.pinchuk.cms.dto.Dto;
+import by.itacademy.pinchuk.cms.entity.AlertType;
 import by.itacademy.pinchuk.cms.entity.Entity;
+import by.itacademy.pinchuk.cms.entity.Lang;
 import by.itacademy.pinchuk.cms.service.Service;
-import by.itacademy.pinchuk.cms.util.ReqParamUtils;
+import by.itacademy.pinchuk.cms.servlet.Error404Servlet;
+import by.itacademy.pinchuk.cms.util.LocaleUtil;
+import by.itacademy.pinchuk.cms.util.RequestHelper;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,18 +22,22 @@ public class ActionGet extends BaseAction implements Action {
 
     public ActionGet(HttpServletRequest req, HttpServletResponse resp) {
         super(req, resp);
-        this.id = ReqParamUtils.getInt(req.getParameter("id"));
+        this.id = RequestHelper.getInt(req.getParameter("id"));
     }
 
     @Override
     public <E extends Entity> void execute(Service<E> service, String baseView) throws IOException, ServletException {
+        Lang language = Lang.valueOf(getRequest().getSession().getAttribute("lang").toString());
+
         if (Objects.nonNull(id)) {
             Optional<? extends Dto> entityDto = service.get(id, true);
             if (entityDto.isPresent()) {
                 getRequest().setAttribute("entity", entityDto.get());
                 forward(baseView);
             } else {
-                getResponse().sendRedirect("/app/404");
+                RequestHelper.addAlert(getRequest(), AlertType.DANGER,
+                        LocaleUtil.getMessage("action.get.danger", language.getLocale()));
+                getResponse().sendRedirect("/app/" + Error404Servlet.BASE_VIEW);
             }
         }
     }

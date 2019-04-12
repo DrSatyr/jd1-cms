@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="nav-scroller py-1 mb-2">
     <nav class="nav d-flex justify-content-between">
         <c:forEach items="${requestScope.topMenu}" var="menuItem">
@@ -12,3 +13,9 @@
         </c:forEach>
     </nav>
 </div>
+<c:forEach items="${sessionScope.alerts}" var="alert">
+    <div class="alert alert-${alert.alertType.value}" role="alert">
+            ${alert.content}
+    </div>
+</c:forEach>
+<c:remove var="alerts" scope="session"/>

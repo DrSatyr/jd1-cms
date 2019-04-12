@@ -13,6 +13,7 @@ public class ContentListMapper implements Mapper<Content, ContentListDto> {
                 .id(entity.getId())
                 .createdBy(entity.getCreatedBy())
                 .category(entity.getCategory())
+                .image(entity.getImage())
                 // TODO: 31.03.2019 Использовать утилиту для преобразование даты в строку
                 .created(entity.getCreated())
                 .translation(entity.getTranslation())
@@ -25,6 +26,7 @@ public class ContentListMapper implements Mapper<Content, ContentListDto> {
                 .id(dto.getId())
                 .createdBy(dto.getCreatedBy())
                 .category(dto.getCategory())
+                .image(dto.getImage())
                 // TODO: 31.03.2019 Использовать утилиту для преобразование строки в дату
                 .created(dto.getCreated())
                 .build();

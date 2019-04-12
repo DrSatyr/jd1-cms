@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="messages"/>
 
 <c:forEach items="${requestScope.entity.translation}" var="translation">
     <c:if test="${translation.key == sessionScope.lang}">
@@ -13,23 +16,29 @@
     </c:if>
 </c:forEach>
 
-<div class="row">
+<div class="row pt-3">
     <div class="col-md-8 blog-main">
 
         <jsp:include page="chunks/entityEditButtons.jsp"/>
 
         <div class="blog-post">
             <h1 class="blog-post-title">${requestScope.translation.name}</h1>
-            <p class="blog-post-meta"><span>Дата: </span> ${requestScope.entity.created} <span>Автор: </span>
+            <p class="blog-post-meta"><span><fmt:message key="content.date"/></span> ${requestScope.entity.created} <span><fmt:message key="content.author"/></span>
                 <a href="${pageContext.request.contextPath}/app/user?id=${requestScope.entity.userId}">
                     ${requestScope.entity.userName} ${requestScope.entity.userSurname}
-                </a> <span>Опубликовано в: </span>
+                </a> <span><fmt:message key="content.publishedin"/></span>
                 <a href="${pageContext.request.contextPath}/app/category?id=${requestScope.entity.category.id}">
                     ${requestScope.categoryTranslation.name}
                 </a>
             </p>
-
-            <div class="mb-3 content-intro-text"><p>${requestScope.translation.introText}</p></div>
+            <div class="row">
+                <div class="col-md-5">
+                    <img class="rounded-circle" width="100%" src="${applicationScope.uploadPath}/${requestScope.entity.image}">
+                </div>
+                <div class="col-md-7">
+                    <div class="mb-3 content-intro-text"><p>${requestScope.translation.introText}</p></div>
+                </div>
+            </div>
 
             <div class="mb-3 content-intro-text">${requestScope.translation.fullText}</div>
 

@@ -78,6 +78,10 @@ public class ContentService implements Service<Content> {
         return dao.update(content);
     }
 
+    public boolean updateImage (Content content) {
+        return ContentDao.getInstance().updateImage(content);
+    }
+
     public boolean delete(int id) {
         return dao.delete(id);
     }

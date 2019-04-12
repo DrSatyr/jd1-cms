@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="messages"/>
 
 <div class="row">
-    <div class="col-md-12 blog-main">
+    <div class="col-md-12 bg-light border border-primary rounded mb-5 mt-5">
         <div class="blog-post">
             <h1 class="blog-post-title">Редактирование контента:</h1>
-            <form action="${pageContext.request.contextPath}/app/content?action=update" method="POST" accept-charset="UTF-8">
+            <form action="${pageContext.request.contextPath}/app/content?action=update" method="POST" accept-charset="UTF-8" enctype="multipart/form-data">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="created">Дата создания</label>
@@ -46,11 +49,9 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="image">Картинка</label>
-                        <input type="file" class="form-control-file" id="image" name="image">
-                    </div>
-                    <div class="form-group col-md-2">
+
+                        <input type="file" class="form-control-file" id="image" name="image" hidden>
+                    <div class="form-group col-md-6">
                         <label for="active">Опубликован</label>
                         <input type="checkbox" class="form-control-file" id="active" name="active"
                                value="true" <c:if test="${requestScope.entity.active eq true}">checked</c:if>>
@@ -131,6 +132,19 @@
                 </div>
                 <hr>
                 <button type="submit" class="btn btn-primary">Сохранить</button>
+            </form>
+
+            <hr>
+            <form action="${pageContext.request.contextPath}/app/content?action=update-image&id=${requestScope.entity.id}" method="post" enctype="multipart/form-data"
+                  class="text-right">
+                <div class="form-group offset-8 col-md-4">
+                    <label for="image2">Обновить картинку</label>
+                    <input type="file" class="form-control-file" id="image2" name="image">
+
+                </div>
+                <div class="form-group offset-8 col-md-4">
+                    <button type="submit" class="btn btn-secondary">Обновить</button>
+                </div>
             </form>
         </div>
     </div>

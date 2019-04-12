@@ -28,6 +28,7 @@ import java.util.List;
  * <p>
  * RESULT FILTER QUERY: "AND c.content_id = 1 AND c.status = PUBLISHED"
  */
+
 @UtilityClass
 public class DaoFilter {
 

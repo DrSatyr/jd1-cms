@@ -1,25 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="messages"/>
 
 <div class="row">
-    <div class="col-md-12 blog-main">
+    <div class="col-md-12 bg-light border border-primary rounded mb-5 mt-5">
         <div class="blog-post">
-            <h1 class="blog-post-title">Редактирование категории:</h1>
+            <h1 class="blog-post-title"><fmt:message key="category.update.title"/></h1>
             <form action="${pageContext.request.contextPath}/app/category?action=update" method="POST"
                   accept-charset="UTF-8">
                 <div class="form-row">
                     <div class="form-group col-md-2">
-                        <label for="created">Дата создания</label>
+                        <label for="created"><fmt:message key="category.form.created"/></label>
                         <input type="date" class="form-control" id="created" name="created" value="${requestScope.entity.created}">
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="alias">Алиас</label>
+                        <label for="alias"><fmt:message key="category.form.alias"/></label>
                         <input type="text" class="form-control" id="alias" name="alias" placeholder="Alias" value="${requestScope.entity.alias}">
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="parentId">Родительская категория</label>
+                        <label for="parentId"><fmt:message key="category.form.parent"/></label>
                         <select id="parentId" name="parentId" class="form-control">
-                            <option value="0">Верхний уровень</option>
+                            <option value="0"><fmt:message key="category.form.toplevel"/></option>
                             <c:forEach items="${requestScope.allCategories}" var="category">
                                 <c:forEach items="${category.translation}" var="translation">
                                     <c:if test="${translation.key == sessionScope.lang}">
@@ -35,7 +38,7 @@
                         <input type="text" class="form-control" id="id" name="id" value="${requestScope.entity.id}" readonly>
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="active">Опубликован</label>
+                        <label for="active"><fmt:message key="category.form.active"/></label>
                         <input type="checkbox" class="form-control-file" id="active" name="active" value="Опубликован"
                                <c:if test="${requestScope.entity.active eq true}">checked</c:if>>
                     </div>
@@ -66,46 +69,46 @@
                              aria-labelledby="${translation.key}">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="name${translation.key}">Заголовок</label>
+                                    <label for="name${translation.key}"><fmt:message key="category.form.name"/></label>
                                     <input type="text" class="form-control" id="name${translation.key}" name="name${translation.key}"
                                            value="${translation.value.name}" placeholder="Заголовок">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="metaTitle${translation.key}">Мета заголовок</label>
+                                    <label for="metaTitle${translation.key}"><fmt:message key="category.form.metatitle"/></label>
                                     <input type="text" class="form-control" id="metaTitle${translation.key}"
                                            value="${translation.value.metaTitle}"
                                            name="metaTitle${translation.key}"
-                                           placeholder="Мета-заголовок">
+                                           placeholder="">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="metaDescription${translation.key}">Мета описание</label>
+                                    <label for="metaDescription${translation.key}"><fmt:message key="category.form.metadesc"/></label>
                                     <input type="text" class="form-control" id="metaDescription${translation.key}"
                                            value="${translation.value.metaDescription}"
                                            name="metaDescription${translation.key}"
-                                           placeholder="Мета описание">
+                                           placeholder="">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="metaKeywords${translation.key}">Мета ключевые слова</label>
+                                    <label for="metaKeywords${translation.key}"><fmt:message key="category.form.metakeywords"/></label>
                                     <input type="text" class="form-control" id="metaKeywords${translation.key}"
                                            value="${translation.value.metaKeywords}"
                                            name="metaKeywords${translation.key}"
-                                           placeholder="Мета ключевые слова">
+                                           placeholder="">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-12">
-                                    <label for="introText${translation.key}">Краткое описание</label>
+                                    <label for="introText${translation.key}"><fmt:message key="category.form.introtext"/></label>
                                     <textarea class="form-control" id="introText${translation.key}" name="introText${translation.key}"
-                                              placeholder="Краткое описание">${translation.value.introText}</textarea>
+                                              placeholder="">${translation.value.introText}</textarea>
                                 </div>
                             </div>
                         </div>
                     </c:forEach>
                 </div>
                 <hr>
-                <button type="submit" class="btn btn-primary">Сохранить</button>
+                <button type="submit" class="btn btn-primary"><fmt:message key="action.update"/></button>
             </form>
         </div>
     </div>

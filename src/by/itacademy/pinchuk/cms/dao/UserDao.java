@@ -4,6 +4,7 @@ import by.itacademy.pinchuk.cms.entity.User;
 import by.itacademy.pinchuk.cms.util.ConnectionManager;
 import by.itacademy.pinchuk.cms.util.DaoBuilder;
 import by.itacademy.pinchuk.cms.util.DaoFilter;
+import by.itacademy.pinchuk.cms.util.DateHelper;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -21,6 +22,7 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 public class UserDao extends BaseDao<User> implements Dao<User>{
 
     public static final String FILTER_BY_ID = "id";
+    public static final String FILTER_BY_USERNAME = "username";
     public static final String FILTER_BY_ACTIVE = "active";
     public static final String FILTER_BY_ROLE = "role";
     public static final String FILTER_BY_REGISTER_DATE = "register_date";
@@ -56,7 +58,6 @@ public class UserDao extends BaseDao<User> implements Dao<User>{
                     "username = ?, " +
                     "email = ?, " +
                     "phone = ?, " +
-                    "password = ?, " +
                     "active = ?, " +
                     "role = ?, " +
                     "register_date = ?, " +
@@ -65,6 +66,7 @@ public class UserDao extends BaseDao<User> implements Dao<User>{
                     "surname = ? " +
                     "WHERE " +
                     "id = ?;";
+    private static final String UPDATE_PASSWORD = "UPDATE app.user SET password = ? WHERE id = ?";
 
     @SneakyThrows
     public Optional<User> get(int id, boolean onlyPublished) {
@@ -108,10 +110,10 @@ public class UserDao extends BaseDao<User> implements Dao<User>{
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getPhone());
             preparedStatement.setString(4, user.getPassword());
-            preparedStatement.setBoolean(5, user.getActive());
-            preparedStatement.setString(6, user.getRole());
-            preparedStatement.setDate(7, (java.sql.Date.valueOf(user.getRegisterDate())));
-            preparedStatement.setDate(8, (java.sql.Date.valueOf(user.getBirthDate())));
+            preparedStatement.setBoolean(5, user.isActive());
+            preparedStatement.setString(6, user.getRole().name());
+            preparedStatement.setDate(7, (DateHelper.convertToSqlDate(user.getRegisterDate())));
+            preparedStatement.setDate(8, (DateHelper.convertToSqlDate(user.getBirthDate())));
             preparedStatement.setString(9, user.getName());
             preparedStatement.setString(10, user.getSurname());
             preparedStatement.executeUpdate();
@@ -134,15 +136,27 @@ public class UserDao extends BaseDao<User> implements Dao<User>{
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getPhone());
-            preparedStatement.setString(4, user.getPassword());
-            preparedStatement.setBoolean(5, user.getActive());
-            preparedStatement.setString(6, user.getRole());
-            preparedStatement.setDate(7, (java.sql.Date.valueOf(user.getRegisterDate())));
-            preparedStatement.setDate(8, (java.sql.Date.valueOf(user.getBirthDate())));
-            preparedStatement.setString(9, user.getName());
-            preparedStatement.setString(10, user.getSurname());
-            preparedStatement.setInt(11, user.getId());
+            preparedStatement.setBoolean(4, user.isActive());
+            preparedStatement.setString(5, user.getRole().name());
+            preparedStatement.setDate(6, (DateHelper.convertToSqlDate(user.getRegisterDate())));
+            preparedStatement.setDate(7, (DateHelper.convertToSqlDate(user.getBirthDate())));
+            preparedStatement.setString(8, user.getName());
+            preparedStatement.setString(9, user.getSurname());
+            preparedStatement.setInt(10, user.getId());
 
+            int affectedRows = preparedStatement.executeUpdate();
+            result = affectedRows > 0;
+        }
+        return result;
+    }
+
+    @SneakyThrows
+    public boolean updatePassword(Integer id, String password) {
+        boolean result = false;
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PASSWORD)) {
+            preparedStatement.setString(1, password);
+            preparedStatement.setInt(2, id);
             int affectedRows = preparedStatement.executeUpdate();
             result = affectedRows > 0;
         }

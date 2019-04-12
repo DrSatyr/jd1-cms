@@ -22,5 +22,6 @@ public class ContentListDto implements Dto {
     private Category category;
     private LocalDate created;
     private User createdBy;
+    private String image;
     private Map<Lang, ContentTranslation> translation;
 }

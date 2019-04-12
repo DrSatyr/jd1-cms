@@ -86,3 +86,7 @@ CREATE TABLE app.comment (
   full_text  TEXT      NOT NULL,
   status     VARCHAR(100)
 );
+
+CREATE TABLE app.permissions (
+
+)

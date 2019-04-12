@@ -10,6 +10,7 @@ import by.itacademy.pinchuk.cms.entity.ContentType;
 import by.itacademy.pinchuk.cms.entity.Lang;
 import by.itacademy.pinchuk.cms.entity.Tag;
 import by.itacademy.pinchuk.cms.entity.User;
+import by.itacademy.pinchuk.cms.entity.UserRole;
 import lombok.experimental.UtilityClass;
 
 import java.sql.ResultSet;
@@ -87,7 +88,7 @@ public class DaoBuilder {
                 .phone(resultSet.getString("user_phone"))
                 .password(resultSet.getString("user_password"))
                 .active(resultSet.getBoolean("user_active"))
-                .role(resultSet.getString("user_role"))
+                .role(UserRole.valueOf(resultSet.getString("user_role")))
                 .registerDate(convertToLocalDate(resultSet.getDate("user_register_date")))
                 .birthDate(convertToLocalDate(resultSet.getDate("user_birth_date")))
                 .name(resultSet.getString("user_name"))

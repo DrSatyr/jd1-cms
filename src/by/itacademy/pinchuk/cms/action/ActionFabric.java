@@ -1,6 +1,6 @@
 package by.itacademy.pinchuk.cms.action;
 
-import by.itacademy.pinchuk.cms.util.ReqParamUtils;
+import by.itacademy.pinchuk.cms.util.RequestHelper;
 import lombok.experimental.UtilityClass;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,15 +13,15 @@ public class ActionFabric {
         Action concreteAction;
         String reqAction = req.getParameter("action");
 
-        if (ReqParamUtils.isSet(reqAction)) {
+        if (RequestHelper.isSetParam(reqAction)) {
             switch (reqAction) {
-                case Action.CREATE_ACTION:
+                case Action.CREATE:
                     concreteAction = new ActionCreate(req, resp);
                     break;
-                case Action.UPDATE_ACTION:
+                case Action.UPDATE:
                     concreteAction = new ActionUpdate(req, resp);
                     break;
-                case Action.DELETE_ACTION:
+                case Action.DELETE:
                     concreteAction = new ActionDelete(req, resp);
                     break;
                 default:
@@ -29,7 +29,7 @@ public class ActionFabric {
                     break;
             }
         } else {
-            if (ReqParamUtils.isSet(req.getParameter("id"))) {
+            if (RequestHelper.isSetParam(req.getParameter("id"))) {
                 concreteAction = new ActionGet(req, resp);
             } else {
                 concreteAction = new ActionGetAll(req, resp);

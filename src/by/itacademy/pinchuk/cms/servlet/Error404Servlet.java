@@ -12,9 +12,12 @@ import java.io.IOException;
 @WebServlet(value = "/app/404", name = "Error404Servlet")
 public class Error404Servlet extends HttpServlet {
 
+    public static final String BASE_VIEW = "404";
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("view", Template.getViewPath("404"));
+        req.setAttribute("viewPath", Template.getViewPath(BASE_VIEW));
+        req.setAttribute("view", BASE_VIEW);
         req.getRequestDispatcher(Template.getTplIndex())
                 .forward(req, resp);
     }

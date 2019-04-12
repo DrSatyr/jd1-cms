@@ -6,8 +6,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-import static by.itacademy.pinchuk.cms.util.ReqParamUtils.EMPTY;
-import static by.itacademy.pinchuk.cms.util.ReqParamUtils.isSet;
+import static by.itacademy.pinchuk.cms.util.RequestHelper.EMPTY_STRING;
+import static by.itacademy.pinchuk.cms.util.RequestHelper.isSetParam;
 
 @UtilityClass
 public class DateFormat {
@@ -18,11 +18,11 @@ public class DateFormat {
     public String format(LocalDate localDate) {
         return Objects.nonNull(localDate)
                 ? localDate.format(FORMATTER)
-                : EMPTY;
+                : EMPTY_STRING;
     }
 
     public LocalDate format(String value) {
-        return  isSet(value)
+        return  isSetParam(value)
                 ? LocalDate.parse(value, FORMATTER)
                 : null;
     }
